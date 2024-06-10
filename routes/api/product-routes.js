@@ -6,13 +6,23 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 // get all products
 router.get('/', (req, res) => {
   // find all products
-  Product.findAll({ include: [Category, Tag] }).then(products => res.status(200).json(products));
+  Product.findAll({ include: [Category, Tag] })
+      .then(products => res.status(200).json(products))
+      .catch(err => {
+          console.error(err);
+          res.status(500).json(err);
+      });
 });
 
 // get one product
 router.get('/:id', (req, res) => {
   // find a single product by its `id`
-  Product.findByPk(req.params.id, { include: [Category, Tag] }).then(product => res.status(200).json(product));
+  Product.findByPk(req.params.id, { include: [Category, Tag] })
+      .then(product => res.status(200).json(product))
+      .catch(err => {
+        console.error(err);
+        res.status(500).json(err);
+      });
 });
 
 // create new product
